@@ -97,7 +97,6 @@ book {
  display: block;
  background-color: rgb(255,255,255);
  color: rgb(0,0,0);
- font-family: arial, verdana, sans-serif;
  line-height: 1.5em;
  margin-top: 4em;
  margin-bottom: 2em;
@@ -384,7 +383,7 @@ dfn {
 
 code {
   display: inline;
-  font-family: courier, verdana, arial, sans-serif;
+  font-family: monospace;
 }
 
 samp {
@@ -472,7 +471,7 @@ list[type="ol"][enum="a"] {
   list-style-type: lower-alpha;
 }
 
-list[type="ol"][enum="U"] {
+list[type="ol"][enum="A"] {
   list-style-type: upper-alpha;
 }
 
@@ -480,7 +479,7 @@ list[type="ol"][enum="i"] {
   list-style-type: lower-roman;
 }
 
-list[type="ol"][enum="X"] {
+list[type="ol"][enum="I"] {
   list-style-type: upper-roman;
 }
 
@@ -503,6 +502,35 @@ list > li > list > li > list[type=ul] {
 list > li > list, list li list {
   margin-top: 0em;
   margin-bottom: 0em;
+}
+
+/* 
+  Take into account the @start attribute, use manual counters.
+  Use list-item::marker to keep lists aligned.
+*/
+list[start]{
+  counter-reset: item-count oxy_subtract(attr(start), 1, integer);
+}
+
+list[start] > li::marker{
+    counter-increment: item-count;    
+    content: counters(item-count, ".", decimal) ". "; 
+}
+
+list[start][enum=a] > li::marker{
+    content: counters(item-count, ".", lower-alpha) ". "; 
+}
+
+list[start][enum=A] > li::marker{
+    content: counters(item-count, ".", upper-alpha) ". "; 
+}
+
+list[start][enum=i] > li::marker{
+    content: counters(item-count, ".", lower-roman) ". "; 
+}
+
+list[start][enum=I] > li::marker{
+    content: counters(item-count, ".", upper-roman) ". "; 
 }
 
 /* ------------------------------------------------------------- */
